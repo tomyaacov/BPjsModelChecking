@@ -9,15 +9,11 @@ import il.ac.bgu.cs.bp.bpjs.execution.listeners.PrintBProgramRunnerListener;
 import il.ac.bgu.cs.bp.bpjs.model.BProgram;
 import il.ac.bgu.cs.bp.bpjs.model.ResourceBProgram;
 
-/**
- * Simple class running a BPjs program that selects "hello world" events.
- * @author michael
- */
+
 public class VerifyBProgram {
     
     public static void main(String[] args) throws Exception {
-//        // This will load the program file  <Project>/src/main/resources/HelloBPjsWorld.js
-//        final BProgram bprog = new ResourceBProgram("hot_cold.js");
+//        final BProgram bprog = new ResourceBProgram("ttt.js");
 //
 //        BProgramRunner rnr = new BProgramRunner(bprog);
 //
@@ -28,7 +24,7 @@ public class VerifyBProgram {
 //        rnr.run();
         System.gc();
         long beforeUsedMem=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        final BProgram bprog = new ResourceBProgram("hot_cold.js");
+        final BProgram bprog = new ResourceBProgram("dining_philosophers.js");
         DfsBProgramVerifier vfr = new DfsBProgramVerifier();
         vfr.setDebugMode(true);
         vfr.setProgressListener(new PrintDfsVerifierListener());

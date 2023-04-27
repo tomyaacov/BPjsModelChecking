@@ -13,9 +13,9 @@ for (let i = 0; i < M; i++) {
         for (let j = 0; j < N; j++) {
             bp.sync( {request:bp.Event(letters[i])} );
         }
-        // while (true){
-        //     bp.sync( {request:bp.Event("I")} );
-        // }
+        while (true){
+            bp.sync( {request:bp.Event("I")} );
+        }
     } );
 }
 // bp.registerBThread( "AddB", function(){
@@ -27,8 +27,8 @@ for (let i = 0; i < M; i++) {
 
 bp.registerBThread( "control", function(){
     bp.sync( {request:bp.Event("Start")} );
-    // while (true){
-    //     bp.sync( {waitFor:bp.Event("A")} );
-    //     bp.sync( {waitFor:bp.all, block: bp.Event("A")} );
-    // }
+    while (true){
+        bp.sync( {waitFor:bp.Event("A")} );
+        bp.sync( {waitFor:bp.all, block: bp.Event("A")} );
+    }
 } );
