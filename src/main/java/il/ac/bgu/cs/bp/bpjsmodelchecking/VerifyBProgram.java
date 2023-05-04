@@ -1,8 +1,6 @@
 package il.ac.bgu.cs.bp.bpjsmodelchecking;
 
-import il.ac.bgu.cs.bp.bpjs.analysis.ArrayExecutionTrace;
-import il.ac.bgu.cs.bp.bpjs.analysis.DfsBProgramVerifier;
-import il.ac.bgu.cs.bp.bpjs.analysis.VerificationResult;
+import il.ac.bgu.cs.bp.bpjs.analysis.*;
 import il.ac.bgu.cs.bp.bpjs.analysis.listeners.PrintDfsVerifierListener;
 import il.ac.bgu.cs.bp.bpjs.execution.BProgramRunner;
 import il.ac.bgu.cs.bp.bpjs.execution.listeners.PrintBProgramRunnerListener;
@@ -13,19 +11,30 @@ import il.ac.bgu.cs.bp.bpjs.model.ResourceBProgram;
 public class VerifyBProgram {
     
     public static void main(String[] args) throws Exception {
-//        final BProgram bprog = new ResourceBProgram("ttt.js");
-//
-//        BProgramRunner rnr = new BProgramRunner(bprog);
-//
-//        // Print program events to the console
-//        rnr.addListener( new PrintBProgramRunnerListener() );
-//
-//        // go!
-//        rnr.run();
-        System.gc();
-        long beforeUsedMem=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        final BProgram bprog = new ResourceBProgram("dining_philosophers.js");
-        DfsBProgramVerifier vfr = new DfsBProgramVerifier();
+        if (args.length < 1){
+            //args = new String[]{"hot_cold", "10", "2", "false"};
+            args = new String[]{"dining_philosophers", "3", "true"};
+        }
+        BProgram bprog = null;
+        DfsBProgramVerifier vfr = null;
+        if (args[0].equals("hot_cold")){
+            bprog = new ResourceBProgram("hot_cold.js");
+            bprog.putInGlobalScope("N", Integer.parseInt(args[1]));
+            bprog.putInGlobalScope("M", Integer.parseInt(args[2]));
+            bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[3]));
+            vfr = new DfsBProgramVerifier();
+            vfr.addInspection(ExecutionTraceInspections.HOT_BTHREADS);
+            vfr.addInspection(ExecutionTraceInspections.HOT_SYSTEM);
+            vfr.addInspection(ExecutionTraceInspections.HOT_TERMINATIONS);
+
+        }
+        if (args[0].equals("dining_philosophers")){
+            bprog = new ResourceBProgram("dining_philosophers.js");
+            bprog.putInGlobalScope("PHILOSOPHER_COUNT", Integer.parseInt(args[1]));
+            bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[2]));
+            vfr = new DfsBProgramVerifier();
+            vfr.addInspection(ExecutionTraceInspections.DEADLOCKS);
+        }
         vfr.setDebugMode(true);
         vfr.setProgressListener(new PrintDfsVerifierListener());
         VerificationResult res = vfr.verify(bprog);
@@ -34,12 +43,31 @@ public class VerifyBProgram {
         System.out.println(res.getViolation());      // an Optional<Violation>
         if (res.isViolationFound()){
             ArrayExecutionTrace trace = (ArrayExecutionTrace) res.getViolation().get().getCounterExampleTrace();
-            System.out.println(trace);
+            if (trace.isCyclic()){
+                System.out.println("Cyclic trace");
+                int c = 0;
+                for (ExecutionTrace.Entry entry : trace.getNodes()){
+                    if (c == trace.getCycleToIndex()){
+                        System.out.println("---------- Cycle starts here -------");
+                    }
+                    System.out.println(entry.getEvent());
+                    c++;
+                }
+            } else {
+                for (ExecutionTrace.Entry entry : trace.getNodes()){
+                    System.out.println(entry.getEvent());
+                }
+            }
+
         }
-        System.gc();
-        long afterUsedMem=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        long actualMemUsed=afterUsedMem-beforeUsedMem;
-        System.out.println("Amount of used memory: " + actualMemUsed);
+
+//        BProgramRunner rnr = new BProgramRunner(bprog);
+//
+//        // Print program events to the console
+//        rnr.addListener( new PrintBProgramRunnerListener() );
+//
+//        // go!
+//        rnr.run();
 
     }
     
