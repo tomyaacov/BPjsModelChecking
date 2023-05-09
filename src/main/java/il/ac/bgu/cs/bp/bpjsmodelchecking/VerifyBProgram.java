@@ -35,8 +35,8 @@ public class VerifyBProgram {
             vfr = new DfsBProgramVerifier();
             vfr.addInspection(ExecutionTraceInspections.DEADLOCKS);
         }
-        vfr.setDebugMode(true);
-        vfr.setProgressListener(new PrintDfsVerifierListener());
+        //vfr.setDebugMode(true);
+        //vfr.setProgressListener(new PrintDfsVerifierListener());
         VerificationResult res = vfr.verify(bprog);
 
         System.out.println(res.isViolationFound());  // true iff a counter example was found
