@@ -14,7 +14,8 @@
 module load anaconda ### load anaconda module
 source activate bppy_model_checking ### activating Conda environment. Environment must be configured before running the job
 cd ~/repos/BPjsModelChecking/ || exit
-
+export MAVEN_OPTS="-Xms1024k -Xmx4g"
+mvn compile > /dev/null 2>&1
 options=(
 "hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
 "hot_cold 30 2 false" "hot_cold 60 2 false" "hot_cold 90 2 false"
