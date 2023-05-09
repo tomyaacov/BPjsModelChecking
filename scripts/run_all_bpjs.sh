@@ -20,9 +20,9 @@ options=(
 "hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
 "hot_cold 30 2 false" "hot_cold 60 2 false" "hot_cold 90 2 false"
 "hot_cold 30 3 false" "hot_cold 60 3 false" "hot_cold 90 3 false"
-"hot_cold2 30 1 true" "hot_cold2 60 1 true" "hot_cold2 90 1 true"
-"hot_cold2 30 2 true" "hot_cold2 60 2 true" "hot_cold2 90 2 true"
-"hot_cold2 30 3 true" "hot_cold2 60 3 true" "hot_cold2 90 3 true"
+"hot_cold 30 1 true" "hot_cold 60 1 true" "hot_cold 90 1 true"
+"hot_cold 30 2 true" "hot_cold 60 2 true" "hot_cold 90 2 true"
+"hot_cold 30 3 true" "hot_cold 60 3 true" "hot_cold 90 3 true"
 
 "dining_philosophers 2 false" "dining_philosophers 3 false" "dining_philosophers 4 false" "dining_philosophers 5 false"
 "dining_philosophers 2 true" "dining_philosophers 3 true" "dining_philosophers 4 true" "dining_philosophers 5 true"
