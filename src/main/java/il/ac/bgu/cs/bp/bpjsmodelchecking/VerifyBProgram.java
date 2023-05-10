@@ -13,7 +13,8 @@ public class VerifyBProgram {
     public static void main(String[] args) throws Exception {
         if (args.length < 1){
             //args = new String[]{"hot_cold", "10", "2", "false"};
-            args = new String[]{"dining_philosophers", "3", "true"};
+            //args = new String[]{"dining_philosophers", "3", "true"};
+            args = new String[]{"ttt", "2", "2", "false"};
         }
         BProgram bprog = null;
         DfsBProgramVerifier vfr = null;
@@ -34,6 +35,14 @@ public class VerifyBProgram {
             bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[2]));
             vfr = new DfsBProgramVerifier();
             vfr.addInspection(ExecutionTraceInspections.DEADLOCKS);
+        }
+        if (args[0].equals("ttt")){
+            bprog = new ResourceBProgram("ttt.js");
+            bprog.putInGlobalScope("R", Integer.parseInt(args[1]));
+            bprog.putInGlobalScope("C", Integer.parseInt(args[2]));
+            bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[3]));
+            vfr = new DfsBProgramVerifier();
+            vfr.addInspection(ExecutionTraceInspections.HOT_TERMINATIONS);
         }
         //vfr.setDebugMode(true);
         //vfr.setProgressListener(new PrintDfsVerifierListener());
