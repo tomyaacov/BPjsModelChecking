@@ -16,26 +16,26 @@ source activate bppy_model_checking ### activating Conda environment. Environmen
 cd ~/repos/BPjsModelChecking/ || exit
 export MAVEN_OPTS="-Xms1024k -Xmx4g"
 mvn compile > /dev/null 2>&1
-#options=(
-#"hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
-#"hot_cold 30 2 false" "hot_cold 60 2 false" "hot_cold 90 2 false"
-#"hot_cold 30 3 false" "hot_cold 60 3 false" "hot_cold 90 3 false"
-#"hot_cold 30 1 true" "hot_cold 60 1 true" "hot_cold 90 1 true"
-#"hot_cold 30 2 true" "hot_cold 60 2 true" "hot_cold 90 2 true"
-#"hot_cold 30 3 true" "hot_cold 60 3 true" "hot_cold 90 3 true"
-#
-#"dining_philosophers 2 false" "dining_philosophers 3 false" "dining_philosophers 4 false" "dining_philosophers 5 false"
-#"dining_philosophers 2 true" "dining_philosophers 3 true" "dining_philosophers 4 true" "dining_philosophers 5 true"
-#"ttt 3 3 false" "ttt 4 4 false" "ttt 5 5 false"
-#"ttt 3 3 true" "ttt 4 4 true" "ttt 5 5 true"
-#)
-
 options=(
+"hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
+"hot_cold 30 2 false" "hot_cold 60 2 false" "hot_cold 90 2 false"
+"hot_cold 30 3 false" "hot_cold 60 3 false" "hot_cold 90 3 false"
+"hot_cold 30 1 true" "hot_cold 60 1 true" "hot_cold 90 1 true"
+"hot_cold 30 2 true" "hot_cold 60 2 true" "hot_cold 90 2 true"
+"hot_cold 30 3 true" "hot_cold 60 3 true" "hot_cold 90 3 true"
+
+"dining_philosophers 2 false" "dining_philosophers 3 false" "dining_philosophers 4 false" "dining_philosophers 5 false"
+"dining_philosophers 2 true" "dining_philosophers 3 true" "dining_philosophers 4 true" "dining_philosophers 5 true"
 "ttt 3 3 false" "ttt 4 4 false" "ttt 5 5 false"
 "ttt 3 3 true" "ttt 4 4 true" "ttt 5 5 true"
-
-
 )
+
+#options=(
+#"ttt 3 3 false" "ttt 4 4 false" "ttt 5 5 false"
+#"ttt 3 3 true" "ttt 4 4 true" "ttt 5 5 true"
+#
+#
+#)
 for option in "${options[@]}"; do
   echo "$option"
   timeout 30m /usr/bin/time -v mvn exec:java -D"exec.args"="$option"

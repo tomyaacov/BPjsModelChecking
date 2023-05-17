@@ -6,7 +6,7 @@
 #SBATCH --output run_mapper.out ### output log for running job - %J is the job number variable
 #SBATCH --mail-user=tomya@post.bgu.ac.il ### users email for sending job status notifications ñ replace with yours
 #SBATCH --mail-type=BEGIN,END,FAIL ### conditions when to send the email. ALL,BEGIN,END,FAIL, REQUEU, NONE
-#SBATCH --mem=64G ### total amount of RAM // 500
+#SBATCH --mem=250G ### total amount of RAM // 500
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32 ##. // max 128
 
@@ -14,7 +14,7 @@
 module load anaconda ### load anaconda module
 source activate bppy_model_checking ### activating Conda environment. Environment must be configured before running the job
 cd ~/repos/BPjsModelChecking/ || exit
-export MAVEN_OPTS="-Xms64g -Xmx64g"
+export MAVEN_OPTS="-Xms250g -Xmx250g"
 mvn compile > /dev/null 2>&1
 options=(
 "hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
@@ -33,5 +33,5 @@ options=(
 )
 for option in "${options[@]}"; do
   echo "$option"
-  timeout 60m mvn exec:java -D"exec.mainClass"="il.ac.bgu.cs.bp.bpjsmodelchecking.RunMapper" -D"exec.args"="$option"
+  timeout 240m mvn exec:java -D"exec.mainClass"="il.ac.bgu.cs.bp.bpjsmodelchecking.RunMapper" -D"exec.args"="$option"
 done
