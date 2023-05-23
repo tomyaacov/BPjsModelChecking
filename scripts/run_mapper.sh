@@ -17,21 +17,16 @@ cd ~/repos/BPjsModelChecking/ || exit
 export MAVEN_OPTS="-Xms250g -Xmx250g"
 mvn compile > /dev/null 2>&1
 options=(
-"hot_cold 30 1 false" "hot_cold 60 1 false" "hot_cold 90 1 false"
-"hot_cold 30 2 false" "hot_cold 60 2 false" "hot_cold 90 2 false"
-"hot_cold 30 3 false" "hot_cold 60 3 false" "hot_cold 90 3 false"
 "hot_cold 30 1 true" "hot_cold 60 1 true" "hot_cold 90 1 true"
 "hot_cold 30 2 true" "hot_cold 60 2 true" "hot_cold 90 2 true"
 "hot_cold 30 3 true" "hot_cold 60 3 true" "hot_cold 90 3 true"
 
-"dining_philosophers 2 false" "dining_philosophers 3 false" "dining_philosophers 4 false" "dining_philosophers 5 false"
-"dining_philosophers 2 true" "dining_philosophers 3 true" "dining_philosophers 4 true" "dining_philosophers 5 true"
+"dining_philosophers 3 true" "dining_philosophers 6 true" "dining_philosophers 9 true" "dining_philosophers 12 true" "dining_philosophers 15 true"
 
-"ttt 3 3 false" "ttt 4 4 false" "ttt 5 5 false"
-"ttt 3 3 true" "ttt 4 4 true" "ttt 5 5 true"
+"ttt 2 2 true" "ttt 3 3 true" "ttt 4 4 true" "ttt 5 5 true"
 
 )
 for option in "${options[@]}"; do
   echo "$option"
-  timeout 240m mvn exec:java -D"exec.mainClass"="il.ac.bgu.cs.bp.bpjsmodelchecking.RunMapper" -D"exec.args"="$option"
+  timeout 480m mvn exec:java -D"exec.mainClass"="il.ac.bgu.cs.bp.bpjsmodelchecking.RunMapper" -D"exec.args"="$option"
 done

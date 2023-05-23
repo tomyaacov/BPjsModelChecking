@@ -12,9 +12,9 @@ public class VerifyBProgram {
     
     public static void main(String[] args) throws Exception {
         if (args.length < 1){
-            args = new String[]{"hot_cold", "30", "2", "true"};
-            //args = new String[]{"dining_philosophers", "3", "false"};
-            //args = new String[]{"ttt", "2", "2", "false"};
+            args = new String[]{"hot_cold", "30", "2", "true", "false"};
+            //args = new String[]{"dining_philosophers", "3", "false", "true"};
+            //args = new String[]{"ttt", "2", "2", "false", "true"};
         }
         BProgram bprog = null;
         DfsBProgramVerifier vfr = null;
@@ -27,8 +27,9 @@ public class VerifyBProgram {
             vfr.addInspection(ExecutionTraceInspections.HOT_BTHREADS);
             vfr.addInspection(ExecutionTraceInspections.HOT_SYSTEM);
             vfr.addInspection(ExecutionTraceInspections.HOT_TERMINATIONS);
-            vfr.setMaxTraceLength(Integer.parseInt(args[1] + 5));
-
+            if (Boolean.parseBoolean(args[4])){
+                vfr.setMaxTraceLength(Integer.parseInt(args[1] + 5));
+            }
         }
         if (args[0].equals("dining_philosophers")){
             bprog = new ResourceBProgram("dining_philosophers.js");
@@ -36,7 +37,9 @@ public class VerifyBProgram {
             bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[2]));
             vfr = new DfsBProgramVerifier();
             vfr.addInspection(ExecutionTraceInspections.DEADLOCKS);
-            vfr.setMaxTraceLength(10);
+            if (Boolean.parseBoolean(args[3])){
+                vfr.setMaxTraceLength(10);
+            }
         }
         if (args[0].equals("ttt")){
             bprog = new ResourceBProgram("ttt.js");
@@ -45,7 +48,10 @@ public class VerifyBProgram {
             bprog.putInGlobalScope("SOLVED", Boolean.parseBoolean(args[3]));
             vfr = new DfsBProgramVerifier();
             vfr.addInspection(ExecutionTraceInspections.HOT_TERMINATIONS);
-            vfr.setMaxTraceLength((long) Integer.parseInt(args[1]) *Integer.parseInt(args[2]) + 5);
+            if (Boolean.parseBoolean(args[4])){
+                vfr.setMaxTraceLength((long) Integer.parseInt(args[1]) *Integer.parseInt(args[2]) + 5);
+            }
+
         }
         //vfr.setDebugMode(true);
         //vfr.setProgressListener(new PrintDfsVerifierListener());
