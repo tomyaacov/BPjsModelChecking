@@ -12,8 +12,8 @@ public class VerifyBProgram {
     
     public static void main(String[] args) throws Exception {
         if (args.length < 1){
-            args = new String[]{"hot_cold", "30", "2", "true", "false"};
-            //args = new String[]{"dining_philosophers", "3", "false", "true"};
+            //args = new String[]{"hot_cold", "30", "2", "true", "false"};
+            args = new String[]{"dining_philosophers", "2", "false", "true"};
             //args = new String[]{"ttt", "2", "2", "false", "true"};
         }
         BProgram bprog = null;

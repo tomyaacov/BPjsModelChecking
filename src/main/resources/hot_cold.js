@@ -10,14 +10,12 @@ const anyCold = bp.EventSet('anyCold', function (e) {
 })
 
 bp.registerBThread( "adda", function(){
-    bp.sync( {waitFor:bp.Event("Start")} );
     for (let i = 0; i < N; i++) {
         bp.hot(true).sync( {request:bp.Event("HOT")} );
     }
 } );
 for (let i = 0; i < M; i++) {
     bp.registerBThread("addb" + i.toString(), {i:i.toString()}, function(){
-        bp.sync( {waitFor:bp.Event("Start")} );
         for (let j = 0; j < N; j++) {
             bp.sync( {request:bp.Event("COLD" + bp.thread.data.i)} );
         }
@@ -25,10 +23,9 @@ for (let i = 0; i < M; i++) {
 }
 if (SOLVED){
     bp.registerBThread( "control2", function(){
-        bp.sync( {request:bp.Event("Start")} );
-        let e = bp.Event("Start");
+        let e = null;
         while (true){
-            if (e.name.startsWith("COLD")){
+            if (e != null && e.name.startsWith("COLD")){
                 e = null;
                 e = bp.sync( {waitFor:bp.all, block: anyCold} );
             } else {
@@ -39,7 +36,6 @@ if (SOLVED){
     } );
 } else {
     bp.registerBThread( "control", function(){
-        bp.sync( {request:bp.Event("Start")} );
         while (true){
             bp.sync( {waitFor:bp.Event("HOT")} );
             bp.sync( {waitFor:bp.all, block: bp.Event("HOT")} );

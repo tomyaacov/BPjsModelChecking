@@ -6,12 +6,15 @@ import il.ac.bgu.cs.bp.bpjs.model.BProgram;
 import il.ac.bgu.cs.bp.bpjs.model.ResourceBProgram;
 import il.ac.bgu.cs.bp.statespacemapper.MapperResult;
 import il.ac.bgu.cs.bp.statespacemapper.StateSpaceMapper;
+import il.ac.bgu.cs.bp.statespacemapper.jgrapht.exports.DotExporter;
+
+import java.nio.file.Paths;
 
 public class RunMapper {
     public static void main(String[] args) throws Exception {
         if (args.length < 1){
-            //args = new String[]{"hot_cold", "3", "1", "false"};
-            //args = new String[]{"dining_philosophers", "3", "true"};
+            //args = new String[]{"hot_cold", "3", "1", "true"};
+            args = new String[]{"dining_philosophers", "1", "true"};
             //args = new String[]{"ttt", "2", "2", "false"};
         }
         BProgram bprog = null;
@@ -40,5 +43,9 @@ public class RunMapper {
         System.out.println("elapsedTime:");
         System.out.println(elapsedTime);
         System.out.println(mapperResult);
+        System.out.println("// Export to GraphViz...");
+        String path = Paths.get("output",  "output").toString();
+        DotExporter dotExporter = new MCDotExporter(mapperResult, path, "output");
+        dotExporter.export();
     }
 }
